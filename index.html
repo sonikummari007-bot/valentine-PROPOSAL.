@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>For Nisuuu ❤️</title>
+
+<style>
+body{
+  margin:0;
+  font-family: system-ui;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#ffd6e0,#ffc2d1,#ffafcc);
+}
+
+/* card */
+.card{
+  background:white;
+  width:90%;
+  max-width:720px;
+  border-radius:30px;
+  padding:25px;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,.2);
+  position:relative;
+}
+
+/* image */
+.photo{
+  width:100%;
+  height:260px;
+  border-radius:20px;
+  overflow:hidden;
+  margin-bottom:15px;
+}
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* buttons */
+button{
+  padding:14px 28px;
+  font-size:18px;
+  font-weight:bold;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+}
+
+#yes{
+  background:#22c55e;
+  color:white;
+}
+
+#no{
+  background:#ff6b81;
+  color:white;
+  position:absolute;
+}
+
+/* floating hearts */
+.heart{
+  position:fixed;
+  font-size:22px;
+  animation: float 6s linear forwards;
+}
+@keyframes float{
+  to{ transform:translateY(-120vh); opacity:0;}
+}
+
+/* balloons */
+.balloon{
+  position:fixed;
+  width:40px;
+  height:55px;
+  border-radius:50%;
+  animation: rise 8s linear forwards;
+}
+@keyframes rise{
+  to{ transform:translateY(-120vh);}
+}
+
+/* fireworks canvas */
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="stream.mp3" loop></audio>
+
+<canvas id="fx"></canvas>
+
+<div class="card" id="card">
+
+<div class="photo">
+<img src="couple.jpg">
+</div>
+
+<h1 id="title">Dear Nisuuu 💖</h1>
+<p id="msg">Will you be my Valentine?</p>
+
+<button id="yes">YES 💘</button>
+<button id="no">NO ❌</button>
+
+</div>
+
+<script>
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const music=document.getElementById("music");
+const msg=document.getElementById("msg");
+const title=document.getElementById("title");
+
+const noTexts=[
+"PLS MANN JAO MERI JAAN 🥺",
+"Meri billi 😭",
+"meri wifeyy mann jao",
+"arey yaar YES bolo naaa",
+"NO disabled 😂",
+"Only YES works 😈"
+];
+
+function moveNo(){
+  no.style.left=Math.random()*250+"px";
+  no.style.top=Math.random()*120+"px";
+  msg.innerText=noTexts[Math.floor(Math.random()*noTexts.length)];
+}
+no.onmouseover=moveNo;
+no.onclick=moveNo;
+
+/* hearts */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},400);
+
+/* balloons */
+setInterval(()=>{
+  let b=document.createElement("div");
+  b.className="balloon";
+  b.style.background=`hsl(${Math.random()*360},80%,70%)`;
+  b.style.left=Math.random()*100+"vw";
+  b.style.bottom="-60px";
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(),8000);
+},900);
+
+/* fireworks */
+const c=document.getElementById("fx");
+const ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+
+function burst(){
+  for(let i=0;i<80;i++){
+    let x=Math.random()*c.width;
+    let y=Math.random()*c.height*0.6;
+    ctx.fillStyle=`hsl(${Math.random()*360},90%,60%)`;
+    ctx.fillRect(x,y,4,4);
+  }
+}
+
+/* YES click */
+yes.onclick=async()=>{
+  await music.play();  // guaranteed because user click
+
+  title.innerText="Congratulations! 🎉";
+  msg.innerHTML="<b>You are now Pranay’s Valentine for all his life ❤️💍</b>";
+
+  yes.style.display="none";
+  no.style.display="none";
+
+  setInterval(burst,200);
+};
+</script>
+
+</body>
+</html>
